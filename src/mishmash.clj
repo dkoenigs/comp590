@@ -81,20 +81,23 @@
 
 
 
-(defn -main [task value]
-  (cond
-    (= task "pascal")  (try
-                         (pascal (Integer/parseInt value))
-                         (catch NumberFormatException e (println "invalid input"))
-                         )
+(defn -main [& value]
+  (if (= 2 (count value))
+    (cond
+      (= (nth value 0) "pascal")  (try
+                                    (pascal (Integer/parseInt (nth value 1)))
+                                    (catch NumberFormatException e (println "invalid input"))
+                                    )
 
 
-    (= task "write-roman") (try
-                             (write-roman (Integer/parseInt value))
-                             (catch NumberFormatException e (println "invalid input"))
-                             )
+      (= (nth value 0) "write-roman") (try
+                                        (write-roman (Integer/parseInt (nth value 1)))
+                                        (catch NumberFormatException e (println "invalid input"))
+                                        )
 
-    (= task "read-roman") (read-roman value)
-    :else         (println "invalid input")
+      (= (nth value 0) "read-roman") (read-roman (nth value 1))
+      :else         (println "invalid input")
+      )
+    (println "invalid input")
     )
   )
