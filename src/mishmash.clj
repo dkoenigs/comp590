@@ -50,29 +50,46 @@
   )
 
 (defn read-roman [value] (do
+
                            (doseq [i (range 1 4)]
                              (if (.contains value (get m i))
                                (def read-m i)
                                )
                              )
+                           ;Ensure that we are not accidentally reading a subtraction
+                           (if (and (= read-m 1) (.contains value "CM"))
+                             (def read-m 0)
+                             )
+
                            (doseq [i (range 1 10)]
                              (if (.contains value (get c i))
-                               (if (< (count (get c read-c)) (count (get c i)))
+                               (if (<= (count (get c read-c)) (count (get c i)))
                                  (def read-c i))
                                )
                              )
+                           ;Ensure that we are not accidentally reading a subtraction
+                           (if (and (= read-c 1) (.contains value "XC"))
+                             (def read-c 0)
+                             )
+
                            (doseq [i (range 1 10)]
                              (if (.contains value (get x i))
-                               (if (< (count (get x read-x)) (count (get x i)))
+                               (if (<= (count (get x read-x)) (count (get x i)))
                                  (def read-x i))
                                )
                              )
+                           ;Ensure that we are not accidentally reading a subtraction
+                           (if (and (= read-x 1) (.contains value "IX"))
+                             (def read-x 0)
+                             )
+
                            (doseq [j (range 1 10)]
                              (if (.contains value (get i j))
-                               (if (< (count (get i read-i)) (count (get x j)))
+                               (if (<= (count (get i read-i)) (count (get x j)))
                                  (def read-i j))
                                )
                              )
+
                            (println (+ (* 1000 read-m) (+ (* 100 read-c) (+ (* 10 read-x) read-i))))
                            )
   )
@@ -95,7 +112,7 @@
 
       (= (nth value 0) "read-roman") (if (string? (nth value 1))
                                        (if (= true (boolean (re-find #"^[I|X|C|M|D|L|V]*$" (nth value 1)))) ; Verify Roman alphabet
-                                         (if (= true (boolean (re-find #"(IIII+)|(XXXX+)|(CCCC+)|(MMMM+)|(DDDD+)|(LLLL+)|(VVVV+)" (nth value 1)))) ; Verify correct number of roman characters
+                                         (if (= true (boolean (re-find #"(IIII+)|(XXXX+)|(CCCC+)|(MMMM+)|(DD+)|(LL+)|(VV+)" (nth value 1)))) ; Verify correct number of roman characters
                                            (println "invalid input")
                                            (read-roman (nth value 1))
                                            )
