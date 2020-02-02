@@ -1,4 +1,5 @@
-(ns mishmash)
+(ns mishmash
+  (:require [clojure.string :as str]))
 
 ;Calculates factorial of value >= 0
 (defn factorial [value] (
@@ -27,16 +28,12 @@
 (def c ["" "C" "CC" "CCC" "CD" "D" "DC" "DCC" "DCCC" "CM"])
 (def x ["" "X" "XX" "XXX" "XL" "L" "LX" "LXX" "LXXX" "XC"])
 (def i ["" "I" "II" "III" "IV" "V" "VI" "VII" "VIII" "IX"])
-(def roman-letters ["M" "C" "D" "X" "L" "I" "V"])
+(def roman-letters "MCDXLIV")
 (def read-m 0)
 (def read-c 0)
 (def read-x 0)
 (def read-i 0)
 
-;
-;Traverse whole string by row (reverse order) and stop when first hits substring, then move onto next row
-;
-;
 
 
 (defn write-roman [value] (
@@ -97,9 +94,11 @@
                                         )
 
       (= (nth value 0) "read-roman") (if (string? (nth value 1))
-                                       (if (= true (reduce #(or %1 %2) (map #(.contains (nth value 1) %) roman-letters)))
-                                         ;Trying to map to booleans and then reduce to single boolean value
-                                         (read-roman (nth value 1))
+                                       (if (= true (boolean (re-find #"^[I|X|C|M|D|L|V]*$" (nth value 1)))) ; Verify Roman alphabet
+                                         (if (= true (boolean (re-find #"(IIII+)|(XXXX+)|(CCCC+)|(MMMM+)|(DDDD+)|(LLLL+)|(VVVV+)" (nth value 1)))) ; Verify correct number of roman characters
+                                           (println "invalid input")
+                                           (read-roman (nth value 1))
+                                           )
                                          (println "invalid input")
                                        )
                                        (println "invalid input")
