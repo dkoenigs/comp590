@@ -58,7 +58,10 @@
                              )
                            ;Ensure that we are not accidentally reading a subtraction
                            (if (and (= read-m 1) (.contains value "CM"))
-                             (def read-m 0)
+                             (if (and (= read-m 1) (.contains value "MCM")) ;Check whether subtraction is intentional
+                               ()
+                               (def read-m 0)
+                               )
                              )
 
                            (doseq [i (range 1 10)]
@@ -69,7 +72,10 @@
                              )
                            ;Ensure that we are not accidentally reading a subtraction
                            (if (and (= read-c 1) (.contains value "XC"))
-                             (def read-c 0)
+                             (if (and (= read-c 1) (.contains value "CXC")) ;Check whether subtraction is intentional
+                               ()
+                               (def read-c 0)
+                               )
                              )
 
                            (doseq [i (range 1 10)]
@@ -80,7 +86,10 @@
                              )
                            ;Ensure that we are not accidentally reading a subtraction
                            (if (and (= read-x 1) (.contains value "IX"))
-                             (def read-x 0)
+                             (if (and (= read-x 1) (.contains value "XIX")) ;Check whether subtraction is intentional
+                               ()
+                               (def read-x 0)
+                               )
                              )
 
                            (doseq [j (range 1 10)]
@@ -114,7 +123,10 @@
                                        (if (= true (boolean (re-find #"^[I|X|C|M|D|L|V]*$" (nth value 1)))) ; Verify Roman alphabet
                                          (if (= true (boolean (re-find #"(IIII+)|(XXXX+)|(CCCC+)|(MMMM+)|(DD+)|(LL+)|(VV+)" (nth value 1)))) ; Verify correct number of roman characters
                                            (println "invalid input")
-                                           (read-roman (nth value 1))
+                                           (if (= true (boolean (re-find #"IXXC|IXCM|XCCM" (nth value 1))))
+                                             (println "invalid input")
+                                             (read-roman (nth value 1))
+                                             )
                                            )
                                          (println "invalid input")
                                        )
