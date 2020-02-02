@@ -124,6 +124,7 @@
                                          (if (= true (boolean (re-find #"(IIII+)|(XXXX+)|(CCCC+)|(MMMM+)|(DD+)|(LL+)|(VV+)" (nth value 1)))) ; Verify correct number of roman characters
                                            (println "invalid input")
                                            (if (= true (boolean (re-find #"IXXC|IXCM|XCCM|III?[^I]|I[^X,V]" (nth value 1))))
+                                             ;Checking for invalid order of roman numerals
                                              (println "invalid input")
                                              (read-roman (nth value 1))
                                              )
