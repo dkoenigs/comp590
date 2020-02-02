@@ -123,8 +123,8 @@
                                        (if (= true (boolean (re-find #"^[I|X|C|M|D|L|V]*$" (nth value 1)))) ; Verify Roman alphabet
                                          (if (= true (boolean (re-find #"(IIII+)|(XXXX+)|(CCCC+)|(MMMM+)|(DD+)|(LL+)|(VV+)" (nth value 1)))) ; Verify correct number of roman characters
                                            (println "invalid input")
-                                           (if (= true (boolean (re-find #"IXXC|IXCM|XCCM|IIXC|IL|ID|IM|IC" (nth value 1))))
-                                             ;Checking for invalid order of roman numerals
+                                           (if (= true (boolean (re-find #"IXXC|IXCM|XCCM|IIXC|IL|ID|IM|IC|XD|XM" (nth value 1))))
+                                             ;Checking for invalid order of roman numerals and invalid subtractions
                                              (println "invalid input")
                                              (read-roman (nth value 1))
                                              )
