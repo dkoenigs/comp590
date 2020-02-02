@@ -27,6 +27,7 @@
 (def c ["" "C" "CC" "CCC" "CD" "D" "DC" "DCC" "DCCC" "CM"])
 (def x ["" "X" "XX" "XXX" "XL" "L" "LX" "LXX" "LXXX" "XC"])
 (def i ["" "I" "II" "III" "IV" "V" "VI" "VII" "VIII" "IX"])
+(def roman-letters ["M" "C" "D" "X" "L" "I" "V"])
 (def read-m 0)
 (def read-c 0)
 (def read-x 0)
@@ -95,7 +96,14 @@
                                         (catch NumberFormatException e (println "invalid input"))
                                         )
 
-      (= (nth value 0) "read-roman") (read-roman (nth value 1))
+      (= (nth value 0) "read-roman") (if (string? (nth value 1))
+                                       (if (= true (reduce #(or %1 %2) (map #(.contains (nth value 1) %) roman-letters)))
+                                         ;Trying to map to booleans and then reduce to single boolean value
+                                         (read-roman (nth value 1))
+                                         (println "invalid input")
+                                       )
+                                       (println "invalid input")
+                                       )
       :else         (println "invalid input")
       )
     (println "invalid input")
