@@ -47,6 +47,7 @@
                  ]
                 (do
                   (helper-functions/write-to-db hashed-root-tree (byte-array root-tree-entry))
+                  (println hashed-root-tree)
                   )
                 )
         )
