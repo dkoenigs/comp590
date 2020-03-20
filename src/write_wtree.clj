@@ -22,15 +22,14 @@
          nonEmpty-dir (filter #(or (.isDirectory %) (.isFile %)) sorted-dir)
          hashed-dir (map #(
                             if (not (.isDirectory %))
-                            (return-blob (str current "/" (.getName %)))
-                            (tree-helper (str current "/" (.getName %)))
+                            (return-blob (str current "/" (.getName %))) ; Get blob, store as blob entry
+                            (concat (.getBytes (str "40000 " (.getName %) "\000")) (tree-helper (str current "/" (.getName %)))) ; Recur down into this directory, store value as tree entry
                             ) nonEmpty-dir)
-         formatted-dir (reduce concat (seq []) hashed-dir)
-         hashed-tree (helper-functions/hash-tree formatted-dir)
+         formatted-dir (reduce concat (seq []) hashed-dir)  ; Concat all entries
+         hashed-tree (helper-functions/hash-tree formatted-dir) ; hash tree
          tree-byte (helper-functions/from-hex-string hashed-tree)
-         tree-entry (concat (.getBytes (str "40000 " current "\000")) tree-byte)
          ]
-        tree-entry
+        tree-byte
         )
       )
 
@@ -42,11 +41,11 @@
         :else (let
                 [
                  root-tree-entry (tree-helper curr-dir)
-                 hashed-root-tree (helper-functions/hash-tree root-tree-entry)
+                 ;hashed-root-tree (helper-functions/hash-tree root-tree-entry)
                  ]
                 (do
-                  (helper-functions/write-to-db hashed-root-tree (byte-array root-tree-entry))
-                  (println hashed-root-tree)
+                  ;(helper-functions/write-to-db hashed-root-tree (byte-array root-tree-entry))
+                  (println (helper-functions/to-hex-string root-tree-entry))
                   )
                 )
         )
