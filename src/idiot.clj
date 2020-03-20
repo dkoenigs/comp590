@@ -26,7 +26,7 @@
       (= "init" (nth args 1)) (init/run (if (not (= "" (nth args 0))) (str (nth args 0) "/")) (drop 2 args))
       (= "hash-object" (nth args 1)) (hash-object/run (if (not (= "" (nth args 0))) (str (nth args 0) "/")) (drop 2 args))
       (= "cat-file" (nth args 1)) (cat-file/run (if (not (= "" (nth args 0))) (str (nth args 0) "/") "") (drop 2 args))
-      (= "write-wtree" (nth args 1)) (write-wtree/run (if (not (= "" (nth args 0))) (str (nth args 0) "/") "") (drop 2 args))
+      (= "write-wtree" (nth args 1)) (write-wtree/run (if (not (= "" (nth args 0))) (nth args 0) "") (drop 2 args))
       :else (println "Error: invalid command"))
     )
       )

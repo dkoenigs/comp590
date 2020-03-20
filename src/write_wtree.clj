@@ -8,7 +8,7 @@
       (let [
             blob-hex (helper-functions/hash-object-helper "" "dontPrint"  file-path)
             blob-byte (helper-functions/from-hex-string blob-hex)
-            blob-entry (concat (.getBytes "100644 file\000") blob-byte)
+            blob-entry (concat (.getBytes (str "100644 " (last (clojure.string/split file-path #"/")) "\000")) blob-byte)
             ]
            blob-entry
            )
@@ -27,9 +27,8 @@
                             ) nonEmpty-dir)
          formatted-dir (reduce concat (seq []) hashed-dir)
          hashed-tree (helper-functions/hash-tree formatted-dir)
-
          tree-byte (helper-functions/from-hex-string hashed-tree)
-         tree-entry (concat (.getBytes "40000 dir\000") tree-byte)
+         tree-entry (concat (.getBytes (str "40000 " current "\000")) tree-byte)
          ]
         tree-entry
         )
