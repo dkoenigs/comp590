@@ -46,7 +46,7 @@
 
 ;--------------------------------------------------| HASH-OBJECT HELPER BLOBS (Returns straight to hexadecimal!)
 (defn hash-object-helper [curr-dir, switch, file-name]
-      (let [header-and-blob (str "blob " (count (slurp file-name)) "\000" (slurp file-name))
+      (let [header-and-blob (str "blob " (count (slurp (str curr-dir file-name))) "\000" (slurp (str curr-dir file-name)))
             address (sha1-sum header-and-blob)
             directory (subs address 0 2)
             file-name (subs address 2)]

@@ -19,7 +19,6 @@
                 (if (< 1 (count value)) (drop 1 value) (do (println "Error: the -r switch needs an argument") (System/exit 0)))
                 (conj value "")
                 )
-     test (println args)
      ]
     (cond
       (or (= 1 (count args)) (= "-h" (nth args 1)) (= "--help" (nth args 1))) (help/run (drop 2 args))
